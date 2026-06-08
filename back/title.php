@@ -44,7 +44,10 @@
                         <td width="7%">
                             <input type="checkbox" name="del[]" value="<?= $title['id']; ?>">
                         </td>
-                        <td></td>
+                        <td>
+
+                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $title['id'];?>')">
+                        </td>
                         <input type="hidden" name="id[]" value="<?= $title['id']; ?>">
                     </tr>
                     <?php
