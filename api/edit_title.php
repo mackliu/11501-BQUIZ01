@@ -1,15 +1,17 @@
 <?php 
 include_once "db.php";
 
-dd($_POST);
+foreach($_POST['id'] as $idx => $id){
+    if(isset($_POST['del']) && in_array($id,$_POST['del'])){
+        $Title->del($id);
+    }else{
+        $row=$Title->find($id);
+        $row['text']=$_POST['text'][$idx];
+        $row['sh']=(isset($_POST['sh']) && $_POST['sh']==$id)?1:0;
 
-/* 
-if(!empty($_FILES['img']['tmp_name'])){
-    move_uploaded_file($_FILES['img']['tmp_name'],"../upload/".$_FILES['img']['name']);
-    $_POST['text'];
-    $_POST['img']=$_FILES['img']['name'];
-    $_POST['sh']=0;
-    $Title->save($_POST);
-} */
+        $Title->save($row);
+    }
 
-//to("../admin.php?do=title");
+}
+
+to("../admin.php?do=title");
