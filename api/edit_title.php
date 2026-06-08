@@ -1,6 +1,8 @@
 <?php 
 include_once "db.php";
 
+dd($_POST);
+
 /* 
 if(!empty($_FILES['img']['tmp_name'])){
     move_uploaded_file($_FILES['img']['tmp_name'],"../upload/".$_FILES['img']['name']);
@@ -10,4 +12,4 @@ if(!empty($_FILES['img']['tmp_name'])){
     $Title->save($_POST);
 } */
 
-to("../admin.php?do=title");
+//to("../admin.php?do=title");
