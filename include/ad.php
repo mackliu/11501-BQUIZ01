@@ -1,6 +1,6 @@
 <h3 class="cent">新增動態文字廣告</h3>
 <hr>
-<form action="api/add_ad.php" method="post" enctype="multipart/form-data">
+<form action="api/add.php?table=ad" method="post" enctype="multipart/form-data">
     <table class="all" style="width:70%; margin:auto;">
         <tr>
             <td class="tt">動態文字廣告：</td>
