@@ -11,5 +11,8 @@
             <td><input type="text" name="text"></td>
         </tr>
     </table>
-    <div class="cent"><input type="submit" value="新增"><input type="reset" value="重置"></div>
-    </form>
+    <div class="cent">
+        <input type="submit" value="新增">
+        <input type="reset" value="重置">
+    </div>
+</form>
