@@ -17,7 +17,7 @@
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">動態文字廣告管理</p>
-        <form method="post" action="./api/edit_title.php">
+        <form method="post" action="./api/edit_ad.php">
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -30,13 +30,13 @@
                     foreach($ads as $ad):
                     ?>
                     <tr>
-                        <td width="45%">
-                            <input type="text" name="text[]" value="<?= $ad['text']; ?>">
+                        <td width="80%">
+                            <input type="text" name="text[]" value="<?= $ad['text']; ?>" style="width:95%">
                         </td>
-                        <td width="7%">
-                            <input type="radio" name="sh" value="<?= $ad['id']; ?>"  <?= ($ad['sh']==1)?'checked':''; ?> >
+                        <td width="10%">
+                            <input type="checkbox" name="sh[]" value="<?= $ad['id']; ?>"  <?= ($ad['sh']==1)?'checked':''; ?> >
                         </td>
-                        <td width="7%">
+                        <td width="10%">
                             <input type="checkbox" name="del[]" value="<?= $ad['id']; ?>">
                         </td>
                         <input type="hidden" name="id[]" value="<?= $ad['id']; ?>">
