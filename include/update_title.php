@@ -1,6 +1,6 @@
 <h3 class="cent">更新網站標題圖片</h3>
 <hr>
-<form action="api/update_title.php" method="post" enctype="multipart/form-data">
+<form action="api/update.php?table=title" method="post" enctype="multipart/form-data">
     <table class="all" style="width:70%; margin:auto;">
         <tr>
             <td class="tt">網站標題圖片：</td>
