@@ -15,14 +15,14 @@
         </tbody>
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
-        <p class="t cent botli">進站總人數管理</p>
+        <p class="t cent botli">頁尾版權資料管理</p>
         <form method="post" action="./api/edit_value.php?table=<?= $do ?>">
             <table width="50%" style="margin:auto">
                 <tbody>
                     <tr class="yel">
-                        <td width="50%">進站總人數</td>
+                        <td width="50%">頁尾版權資料</td>
                         <td width="50%">
-                            <input type="number" name='total' value="<?= $Total->find(1)['total'] ?>">
+                            <input type="text" name='bottom' value="<?= $Bottom->find(1)['bottom'] ?>">
                             <input type="hidden" name="id" value='1'>
                         </td>
                     </tr>
