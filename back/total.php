@@ -15,43 +15,23 @@
         </tbody>
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
-        <p class="t cent botli">管理者帳號管理</p>
-        <form method="post" action="./api/edit.php?table=<?= $do ?>">
-            <table width="100%">
+        <p class="t cent botli">進站總人數管理</p>
+        <form method="post" action="./api/edit_total.php?table=<?= $do ?>">
+            <table width="50%" style="margin:auto">
                 <tbody>
                     <tr class="yel">
-                        <td width="45%">帳號</td>
-                        <td width="45%">密碼</td>
-                        <td width="10%">刪除</td>
+                        <td width="50%">進站總人數</td>
+                        <td width="50%">
+                            <input type="number" name='total' value="<?= $Total->find(1)['total'] ?>">
+                            <input type="hidden" name="id" value='1'>
+                        </td>
                     </tr>
-                    <?php 
-                    $db=${ucfirst($do)};
-                    $rows=$db->all();
-                    foreach($rows as $row):
-                    ?>
-                    <tr>
-                        <td width="45%">
-                            <input type="text" name="acc[]" value="<?= $row['acc']; ?>" style="width:95%">
-                        </td>
-                        <td width="45%">
-                            <input type="password" name="pw[]" value="<?= $row['pw']; ?>">
-                        </td>
-                        <td width="10%">
-                            <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
-                        </td>
-                        <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
-                    </tr>
-                    <?php
-                    endforeach;
-                    ?>
                 </tbody>
             </table>
             <table style="margin-top:40px; width:70%;">
                 <tbody>
                     <tr>
-                        <td width="200px">
-                            <input type="button" onclick="op('#cover','#cvr','include/<?= $do; ?>.php')" value="新增管理者帳號">
-                        </td>
+                        <td width="200px"></td>
                         <td class="cent">
                             <input type="submit" value="修改確定">
                             <input type="reset" value="重置">
