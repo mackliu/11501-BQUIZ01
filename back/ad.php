@@ -17,7 +17,7 @@
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">動態文字廣告管理</p>
-        <form method="post" action="./api/edit_ad.php">
+        <form method="post" action="./api/edit.php?table=<?= $do ?>">
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -26,20 +26,21 @@
                         <td width="7%">刪除</td>
                     </tr>
                     <?php 
-                    $ads=$Ad->all();
-                    foreach($ads as $ad):
+                    $db=${ucfirst($do)};
+                    $rows=$db->all();
+                    foreach($rows as $row):
                     ?>
                     <tr>
                         <td width="80%">
-                            <input type="text" name="text[]" value="<?= $ad['text']; ?>" style="width:95%">
+                            <input type="text" name="text[]" value="<?= $row['text']; ?>" style="width:95%">
                         </td>
                         <td width="10%">
-                            <input type="checkbox" name="sh[]" value="<?= $ad['id']; ?>"  <?= ($ad['sh']==1)?'checked':''; ?> >
+                            <input type="checkbox" name="sh[]" value="<?= $row['id']; ?>"  <?= ($row['sh']==1)?'checked':''; ?> >
                         </td>
                         <td width="10%">
-                            <input type="checkbox" name="del[]" value="<?= $ad['id']; ?>">
+                            <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
                         </td>
-                        <input type="hidden" name="id[]" value="<?= $ad['id']; ?>">
+                        <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
                     <?php
                     endforeach;

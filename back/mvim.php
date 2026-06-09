@@ -17,7 +17,7 @@
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">動畫圖片管理</p>
-        <form method="post" action="./api/edit_mvim.php">
+        <form method="post" action="./api/edit.php?table=<?= $do ?>">
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -27,24 +27,25 @@
                         <td></td>
                     </tr>
                     <?php 
-                    $mvims=$Mvim->all();
-                    foreach($mvims as $mvim):
+                    $db=${ucfirst($do)};
+                    $rows=$db->all();
+                     foreach($rows as $row):
                     ?>
                     <tr>
                         <td>
-                            <img src="./upload/<?= $mvim['img']; ?>" style="width:250px;height:120px">
+                            <img src="./upload/<?= $row['img']; ?>" style="width:250px;height:120px">
                         </td>
                         <td>
-                            <input type="checkbox" name="sh[]" value="<?= $mvim['id']; ?>"  <?= ($mvim['sh']==1)?'checked':''; ?> >
+                            <input type="checkbox" name="sh[]" value="<?= $row['id']; ?>"  <?= ($row['sh']==1)?'checked':''; ?> >
                         </td>
                         <td>
-                            <input type="checkbox" name="del[]" value="<?= $mvim['id']; ?>">
+                            <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
                         </td>
                         <td>
 
-                            <input type="button" value="更換動畫"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $mvim['id'];?>')">
+                            <input type="button" value="更換動畫"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $row['id'];?>')">
                         </td>
-                        <input type="hidden" name="id[]" value="<?= $mvim['id']; ?>">
+                        <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
                     <?php
                     endforeach;

@@ -17,7 +17,7 @@
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">校園映像資料管理</p>
-        <form method="post" action="./api/edit_image.php">
+        <form method="post" action="./api/edit.php?table=<?= $do ?>">
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -27,24 +27,25 @@
                         <td></td>
                     </tr>
                     <?php 
-                    $images=$Image->all();
-                    foreach($images as $image):
+                    $db=${ucfirst($do)};
+                    $rows=$db->all();
+                     foreach($rows as $row):
                     ?>
                     <tr>
                         <td>
-                            <img src="./upload/<?= $image['img']; ?>" style="width:150px;height:103px">
+                            <img src="./upload/<?= $row['img']; ?>" style="width:150px;height:103px">
                         </td>
                         <td>
-                            <input type="checkbox" name="sh[]" value="<?= $image['id']; ?>"  <?= ($image['sh']==1)?'checked':''; ?> >
+                            <input type="checkbox" name="sh[]" value="<?= $row['id']; ?>"  <?= ($row['sh']==1)?'checked':''; ?> >
                         </td>
                         <td>
-                            <input type="checkbox" name="del[]" value="<?= $image['id']; ?>">
+                            <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
                         </td>
                         <td>
 
-                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $image['id'];?>')">
+                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $row['id'];?>')">
                         </td>
-                        <input type="hidden" name="id[]" value="<?= $image['id']; ?>">
+                        <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
                     <?php
                     endforeach;

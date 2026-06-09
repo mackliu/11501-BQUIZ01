@@ -17,7 +17,7 @@
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">網站標題管理</p>
-        <form method="post" action="./api/edit_title.php">
+        <form method="post" action="./api/edit.php?table=<?= $do ?>">
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -28,27 +28,28 @@
                         <td></td>
                     </tr>
                     <?php 
-                    $titles=$Title->all();
-                    foreach($titles as $title):
+                    $db=${ucfirst($do)};
+                    $rows=$db->all();
+                     foreach($rows as $row):
                     ?>
                     <tr>
                         <td width="45%">
-                            <img src="./upload/<?= $title['img']; ?>" style="width:300px;height:30px">
+                            <img src="./upload/<?= $row['img']; ?>" style="width:300px;height:30px">
                         </td>
                         <td width="23%">
-                            <input type="text" name="text[]" value="<?= $title['text']; ?>">
+                            <input type="text" name="text[]" value="<?= $row['text']; ?>">
                         </td>
                         <td width="7%">
-                            <input type="radio" name="sh" value="<?= $title['id']; ?>"  <?= ($title['sh']==1)?'checked':''; ?> >
+                            <input type="radio" name="sh" value="<?= $row['id']; ?>"  <?= ($row['sh']==1)?'checked':''; ?> >
                         </td>
                         <td width="7%">
-                            <input type="checkbox" name="del[]" value="<?= $title['id']; ?>">
+                            <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
                         </td>
                         <td>
 
-                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $title['id'];?>')">
+                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $row['id'];?>')">
                         </td>
-                        <input type="hidden" name="id[]" value="<?= $title['id']; ?>">
+                        <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
                     <?php
                     endforeach;
