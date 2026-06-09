@@ -72,7 +72,7 @@ class DB{
             $keys=array_keys($arg);
             $sql="INSERT INTO $this->table (`".join("`,`",$keys)."`) VALUES('".join("','",$arg)."');";
         }
-
+    echo $sql;
         return $this->pdo->exec($sql);
     }
 
