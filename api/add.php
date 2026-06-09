@@ -16,6 +16,10 @@ if(!empty($_FILES['img']['tmp_name'])){
         case 'admin':
             unset($_POST['pw2']);
         break;
+        case "menu":
+            $_POST['main_id']=0;
+            $_POST['sh']=1;
+        break;
         default:
             $_POST['sh']=1;
     }

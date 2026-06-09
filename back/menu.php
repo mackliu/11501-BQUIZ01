@@ -50,7 +50,7 @@
                             <input type="checkbox" name="del[]" value="<?= $row['id']; ?>">
                         </td>
                         <td>
-                            <input type="button" value="編輯次選單"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $row['id'];?>')">
+                            <input type="button" value="編輯次選單"  onclick="op('#cover','#cvr','include/submenu.php?id=<?= $row['id'];?>')">
                         </td>
                         <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
