@@ -30,7 +30,7 @@
                     </tr>
                     <?php 
                     $db=${ucfirst($do)};
-                    $rows=$db->all();
+                    $rows=$db->all(['main_id'=>0]);
                     foreach($rows as $row):
                     ?>
                     <tr>
