@@ -10,7 +10,17 @@
                         </div>
                     </div>
                         <script>
-                        var lin = ['upload/01C01.gif','upload/01C02.gif','upload/01C03.gif'];
+                        var lin = new Array();
+                        <?php 
+                            $mvs=$Mvim->all(['sh'=>1]);
+                            foreach($mvs as $mv){
+                                echo "lin.push('upload/{$mv['img']}')\n";
+                            }
+
+
+                        ?>
+                        
+
                         var now = 0;
                         if (lin.length > 1) {
                             setInterval("ww()", 3000);
