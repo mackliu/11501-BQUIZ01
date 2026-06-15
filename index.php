@@ -33,9 +33,21 @@
 					$mains=$Menu->all(['sh'=>1,'main_id'=>0]);
 					foreach($mains as $main):?>
 
-					<a href="<?= $main['href'] ?>">
-						<div class='mainmu cent'><?= $main['text'] ?></div>
-					</a>
+						<div class='mainmu cent'>
+							<a href="<?= $main['href'] ?>"><?= $main['text'] ?></a>
+							<div class="mw">
+								<?php 
+									if($Menu->count(['main_id'=>$main['id']])>0){
+										$subs=$Menu->all(['main_id'=>$main['id']]);
+										foreach($subs as $sub):
+										?>
+										<a href="<?= $sub['href'] ?>"><?= $sub['text'] ?></a>
+									<?php endforeach;
+									}
+									?>		
+
+							</div>
+						</div>
 
 					<?php endforeach;?>
 
