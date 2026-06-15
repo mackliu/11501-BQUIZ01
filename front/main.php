@@ -34,8 +34,15 @@
                         ww();
                     </script>
                     <div style="width:95%; padding:2px; height:190px; margin-top:10px; padding:5px 10px 5px 10px; border:#0C3 dashed 3px; position:relative;">
-                        <span class="t botli">最新消息區</span>
-                        
+                        <span class="t botli">最新消息區
+                            <a href="?do=news" style="float:right">
+                                <?php 
+                                if($News->count(['sh'=>1])>5){
+                                    echo "More...";
+                                }
+                                ?>
+                            </a>
+                        </span>
                         <ul class="ssaa" style="list-style-type:decimal;">
                             <?php 
                             $news=$News->all(['sh'=>1]," limit 5");
