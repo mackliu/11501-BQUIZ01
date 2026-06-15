@@ -41,7 +41,9 @@
 										$subs=$Menu->all(['main_id'=>$main['id']]);
 										foreach($subs as $sub):
 										?>
-										<a href="<?= $sub['href'] ?>"><?= $sub['text'] ?></a>
+										<div  class='mainmu2'>
+											<a href="<?= $sub['href'] ?>"><?= $sub['text'] ?></a>
+										</div>
 									<?php endforeach;
 									}
 									?>		
