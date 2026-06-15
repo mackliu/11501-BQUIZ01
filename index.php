@@ -53,18 +53,51 @@
                 	<button style="width:100%; margin-left:auto; margin-right:auto; margin-top:2px; height:50px;" onclick="lo(&#39;?do=login&#39;)">管理登入</button>
                 	<div style="width:89%; height:480px;" class="dbor">
                     	<span class="t botli">校園映象區</span>
-						                        <script>
-                        	var nowpage=0,num=0;
+						<div class="cent"><img src="icon/up.jpg" onclick="pp(1)"></div>
+						<?php 
+							$imgs=$Image->all(['sh'=>1]);
+							foreach($imgs as $idx => $img):
+						?>
+
+							<div class="im cent" id="ssaa<?= $idx; ?>" >
+								<img src="upload/<?= $img['img']; ?>" alt="" style="width:150px;height:103px;border:3px solid orange;margin:1px"></div>
+						<?php endforeach;?>
+						<div class="cent"><img src="icon/dn.jpg" onclick="pp(2)"></div>
+
+						
+						<script>
+                        	var nowpage=0,num=<?= $Image->count(['sh'=>1]); ?>;
 							function pp(x)
 							{
 								var s,t;
 								if(x==1&&nowpage-1>=0)
 								{nowpage--;}
-								if(x==2&&(nowpage+1)*3<=num*1+3)
+								
+								//nowpage         num
+								// (0+1)*3=3   <= 0*1 +3 =5    
+								// (1+1)*3=6   <= 3*1 +3 =6
+								// (2+1)*3=9   <= 6*1 +3 =9
+								if(x==2&&(nowpage*1+3)<num*1)
 								{nowpage++;}
+
+
 								$(".im").hide()
+
 								for(s=0;s<=2;s++)
 								{
+									//s   nowpage  t
+									//  0      0     id='ssaa0'
+									//  1      0     id='ssaa1'
+									//  2      0     id='ssaa2'
+
+									//  0      1     id='ssaa1'
+									//  1      1     id='ssaa2'
+									//  2      1     id='ssaa3'
+									//  
+									//  0      2     id='ssaa2'
+									//  1      2     id='ssaa3'
+									//  2      2     id='ssaa4'
+
 									t=s*1+nowpage*1;
 									$("#ssaa"+t).show()
 								}
