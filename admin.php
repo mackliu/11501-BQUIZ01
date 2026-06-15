@@ -18,7 +18,11 @@
 </div>
 
 	<div id="main">
-    	<a title="" href="?"><div class="ti" style="background:url(&#39;use/&#39;); background-size:cover;"></div><!--標題--></a>
+		<?php $title=$Title->find(['sh'=>1]);?>
+    	<a title="<?= $title['text']; ?>" href="index.php">
+			<!--標題-->
+			<div class="ti" style="background:url(&#39;upload/<?= $title['img']; ?>&#39;); background-size:cover;"></div>
+		</a>
         	<div id="ms">
              	<div id="lf" style="float:left;">
             		<div id="menuput" class="dbor">
