@@ -28,6 +28,7 @@
                     $db=${ucfirst($do)};
                     $rows=$db->all();
                     foreach($rows as $row):
+                        if($row['acc']!='admin'):
                     ?>
                     <tr>
                         <td width="45%">
@@ -42,6 +43,7 @@
                         <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
                     <?php
+                        endif;
                     endforeach;
                     ?>
                 </tbody>
