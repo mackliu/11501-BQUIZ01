@@ -73,7 +73,7 @@ class DB{
             $keys=array_keys($arg);
             $sql="INSERT INTO $this->table (`".join("`,`",$keys)."`) VALUES('".join("','",$arg)."');";
         }
-    echo $sql;
+    //echo $sql;
         return $this->pdo->exec($sql);
     }
 
@@ -127,3 +127,11 @@ $Admin=new DB('admin');
 $Menu=new DB('menu');
 $Total=new DB('total');
 $Bottom=new DB('bottom');
+
+
+if(!isset($_SESSION['visit'])){
+    $_SESSION['visit']=1;
+    $visit=$Total->find(1);
+    $visit['total']++;
+    $Total->save($visit);
+}
