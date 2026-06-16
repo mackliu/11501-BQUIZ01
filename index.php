@@ -90,43 +90,29 @@
 
 						
 						<script>
-                        	var nowpage=0,num=<?= $Image->count(['sh'=>1]); ?>;
-							function pp(x)
+                        	/*
+                        	 * 校園映象輪播功能
+                        	 * 主要功能：實現校園圖片的分頁展示，每次顯示3張圖片
+                        	 * 用戶可通過上下按鈕進行頁面切換，自動隱藏和顯示相應的圖片
+                        	 */
+                        	var nowpage=0,num=<?= $Image->count(['sh'=>1]); ?>; // 初始頁碼為0，num為資料庫中狀態啟用的圖片總數
+							function pp(x) // x=1為上一頁，x=2為下一頁
 							{
-								var s,t;
-								if(x==1&&nowpage-1>=0)
-								{nowpage--;}
-								
-								//nowpage         num
-								// (0+1)*3=3   <= 0*1 +3 =5    
-								// (1+1)*3=6   <= 3*1 +3 =6
-								// (2+1)*3=9   <= 6*1 +3 =9
-								if(x==2&&(nowpage*1+3)<num*1)
-								{nowpage++;}
+								var s,t; // s為迴圈計數器，t為圖片索引
+								if(x==1&&nowpage-1>=0) // 上一頁：檢查是否不在第一頁
+								{nowpage--;} // 頁碼減1
+								if(x==2&&(nowpage*1+3)<num*1) // 下一頁：檢查是否還有下一頁（當前頁+3張 < 總數）
+								{nowpage++;} // 頁碼加1
 
+								$(".im").hide() // 隱藏所有圖片容器
 
-								$(".im").hide()
-
-								for(s=0;s<=2;s++)
+								for(s=0;s<=2;s++) // 迴圈3次，顯示當前頁的3張圖片
 								{
-									//s   nowpage  t
-									//  0      0     id='ssaa0'
-									//  1      0     id='ssaa1'
-									//  2      0     id='ssaa2'
-
-									//  0      1     id='ssaa1'
-									//  1      1     id='ssaa2'
-									//  2      1     id='ssaa3'
-									//  
-									//  0      2     id='ssaa2'
-									//  1      2     id='ssaa3'
-									//  2      2     id='ssaa4'
-
-									t=s*1+nowpage*1;
-									$("#ssaa"+t).show()
+									t=s*1+nowpage*1; // 計算實際圖片索引 = 迴圈次數 + 當前頁起始位置
+									$("#ssaa"+t).show() // 顯示對應索引的圖片容器
 								}
 							}
-							pp(1)
+							pp(1) // 初始化時呼叫pp(1)，顯示第一頁的圖片
                         </script>
                     </div>
                 </div>
