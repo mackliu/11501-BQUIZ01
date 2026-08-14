@@ -10,13 +10,20 @@
                         </div>
                     </div>
                         <script>
-                        var lin = new Array();
-                        <?php 
-                            $mvs=$Mvim->all(['sh'=>1]);
-                            foreach($mvs as $mv){
-                                echo "lin.push('upload/{$mv['img']}')\n";
-                            }
-                       ?>
+                        <?php
+                            // 舊版是 echo "lin.push('upload/{$mv['img']}')"，把資料庫的檔名
+                            // 直接拼進 JavaScript 字串常值（對應 A05-5）。上傳檔名現已由
+                            // 伺服器產生，但資料庫中可能還留有舊的、含引號的檔名，
+                            // 因此改用 json_encode 一次輸出整個陣列。
+                            $mvs = array_map(
+                                static fn(array $mv): string => 'upload/' . $mv['img'],
+                                $Mvim->all(['sh'=>1])
+                            );
+                        ?>
+                        var lin = <?= json_encode(
+                            $mvs,
+                            JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE
+                        ) ?>;
                          var now = 0;
                         if (lin.length > 1) {
                             setInterval("ww()", 3000);
@@ -45,7 +52,7 @@
                         </span>
                         <ul class="ssaa" style="list-style-type:decimal;">
                             <?php 
-                            $news=$News->all(['sh'=>1]," limit 5");
+                            $news=$News->all(['sh'=>1], ['limit'=>5]);
                             foreach($news as $n):
                             ?>
                             <li><?= mb_substr($n['text'],0,25); ?>

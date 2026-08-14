@@ -8,15 +8,18 @@
                     <a href="?do=admin" style="color:#000; text-decoration:none;">後台管理區</a>
                 </td>
                 <td>
-                    <button onclick="document.cookie=&#39;user=&#39;;location.replace(&#39;index.php&#39;)"
-                        style="width:99%; margin-right:2px; height:50px;">管理登出</button>
+                    <form method="post" action="./api/logout.php" style="margin:0;">
+                        <?= csrf_field() ?>
+                        <button type="submit" style="width:99%; margin-right:2px; height:50px;">管理登出</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">校園映像資料管理</p>
-        <form method="post" action="./api/edit.php?table=<?= $do ?>">
+        <form method="post" action="./api/edit.php?table=<?= e($do) ?>">
+            <?= csrf_field() ?>
             <table width="100%">
                 <tbody>
                     <tr class="yel">
@@ -26,14 +29,15 @@
                         <td></td>
                     </tr>
                     <?php 
-                    $db=${ucfirst($do)};
+                    $db = table($do);
                     $all=$db->count();
                     $div=3;
-                    $pages=ceil($all/$div);
-                    $now=$_GET['p']??1;
+                    $pages=max(1, (int)ceil($all/$div));
+                    // 分頁參數強制轉型並夾在合法範圍內，避免 TypeError 與負數 OFFSET
+                    $now=max(1, min($pages, (int)($_GET['p'] ?? 1)));
                     $start=($now-1)*$div;
-                    
-                    $rows=$db->all(" limit $start,$div");
+
+                    $rows=$db->all([], ['limit'=>$div, 'offset'=>$start]);
                      foreach($rows as $row):
                     ?>
                     <tr>
@@ -48,7 +52,7 @@
                         </td>
                         <td>
 
-                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= $do; ?>.php?id=<?= $row['id'];?>')">
+                            <input type="button" value="更新圖片"  onclick="op('#cover','#cvr','include/update_<?= e($do); ?>.php?id=<?= $row['id'];?>')">
                         </td>
                         <input type="hidden" name="id[]" value="<?= $row['id']; ?>">
                     </tr>
@@ -83,7 +87,7 @@
                 <tbody>
                     <tr>
                         <td width="200px">
-                            <input type="button" onclick="op('#cover','#cvr','include/<?= $do; ?>.php')" value="新增校園映像資料">
+                            <input type="button" onclick="op('#cover','#cvr','include/<?= e($do); ?>.php')" value="新增校園映像資料">
                         </td>
                         <td class="cent">
                             <input type="submit" value="修改確定">

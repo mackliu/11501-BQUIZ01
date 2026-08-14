@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------
+# 站台根目錄設定
+# 於 2026-08-14 的安全修復中新增。
+# ---------------------------------------------------------------
+
+# 關閉目錄列表。vhost 設定中開了 Options Indexes，
+# 會讓 upload/ 等目錄的完整內容可被逐一瀏覽。
+Options -Indexes
+
+# 不對外洩漏 PHP 版本
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+</IfModule>
+
+# 封鎖資料庫傾印、日誌、備份、版本控制與說明文件（對應 A02-2）
+<FilesMatch "(?i)\.(sql|sql\.gz|zip|tar|gz|bak|bkp|old|orig|log|ini|env|md|yml|yaml)$">
+    Require all denied
+</FilesMatch>
+
+# 封鎖以點開頭的檔案（.git、.env、.htpasswd 等）
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # 封鎖 .git 目錄
+    RewriteRule ^\.git(/|$) - [F,L]
+    # 封鎖舊版型與設計素材目錄（對應 A02-7）
+    RewriteRule ^102201(/|$) - [F,L]
+</IfModule>

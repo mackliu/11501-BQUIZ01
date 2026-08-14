@@ -1,6 +1,14 @@
-<?php 
-include_once "db.php";
+<?php
+/**
+ * 修改進站總人數（舊路徑，保留相容）
+ * ---------------------------------------------------------------
+ * 於 2026-08-14 的安全修復中改寫。
+ *
+ * 本檔原本直接執行 $Total->save($_POST)，沒有身分驗證也沒有欄位驗證，
+ * 任何人都能改掉計數。現在改為統一委派給 edit_value.php。
+ */
 
-$Total->save($_POST);
+declare(strict_types=1);
 
-to("../admin.php?do=total");
+$_GET['table'] = 'total';
+require __DIR__ . '/edit_value.php';

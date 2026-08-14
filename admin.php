@@ -1,4 +1,15 @@
-﻿<?php include_once "./api/db.php";?>
+<?php
+require_once __DIR__ . "/api/auth.php";
+require_once __DIR__ . "/api/routes.php";
+require_once __DIR__ . "/api/csrf.php";
+
+// 後台一律要求登入（對應 A01-1）
+require_login();
+
+// 使用者輸入只用來查表，實際路徑來自 BACK_ROUTES 常數（對應 A05-2）
+// 這同時消除了舊版 $do 被原樣輸出到 back/*.php 造成的反射型 XSS
+$do = resolve_route(BACK_ROUTES, 'title');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- saved from url=(0068)?do=admin&redo=title -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,7 +29,7 @@
 </div>
 
 	<div id="main">
-		<?php $title=$Title->find(['sh'=>1]);?>
+		<?php $title = $Title->find(['sh'=>1]) ?? ['text'=>'', 'img'=>'']; ?>
     	<a title="<?= $title['text']; ?>" href="index.php">
 			<!--標題-->
 			<div class="ti" style="background:url(&#39;upload/<?= $title['img']; ?>&#39;); background-size:cover;"></div>
@@ -59,20 +70,13 @@
 							                            
 							                    </div>
                     <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
-                    	<span class="t">進站總人數 : <?= $Total->find(1)['total'] ?>
+                    	<span class="t">進站總人數 : <?= $Total->find(1)['total'] ?? 0 ?>
                          </span>
                     </div>
         		</div>
-				<?php 
-				
-				$do=$_GET['do']??"title";
-				$file="back/$do.php";
-				if(file_exists($file)){
-					include $file;
-				}else{
-					include "back/title.php";
-				}
-
+				<?php
+				// $do 已在檔案開頭經 resolve_route() 驗證，必定是 BACK_ROUTES 的合法 key
+				include __DIR__ . '/' . BACK_ROUTES[$do];
 				?>
                 <div id="alt" style="position: absolute; width: 350px; min-height: 100px; word-break:break-all; text-align:justify;  background-color: rgb(255, 255, 204); top: 50px; left: 400px; z-index: 99; display: none; padding: 5px; border: 3px double rgb(255, 153, 0); background-position: initial initial; background-repeat: initial initial;"></div>
                     	<script>
@@ -93,7 +97,7 @@
                              </div>
              	<div style="clear:both;"></div>
             	<div style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
-                	<span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?></span>
+                	<span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?? '' ?></span>
                 </div>
     </div>
 

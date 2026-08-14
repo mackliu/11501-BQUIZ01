@@ -1,4 +1,11 @@
-<?php include_once "api/db.php";?>
+<?php
+require_once __DIR__ . "/api/db.php";
+require_once __DIR__ . "/api/routes.php";
+require_once __DIR__ . "/api/csrf.php";
+
+// 使用者輸入只用來查表，實際路徑來自 FRONT_ROUTES 常數（對應 A05-2）
+$do = resolve_route(FRONT_ROUTES, 'main');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- saved from url=(0040)http://127.0.0.1/test/exercise/collage/? -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,7 +26,10 @@
 </div>
 <iframe style="display:none;" name="back" id="back"></iframe>
 	<div id="main">
-    	<?php $title=$Title->find(['sh'=>1]);?>
+    	<?php
+		// find() 查無資料時回傳 null，補上預設值避免對 null 取索引
+		$title = $Title->find(['sh'=>1]) ?? ['text'=>'', 'img'=>''];
+		?>
     	<a title="<?= $title['text']; ?>" href="index.php">
 			<!--標題-->
 			<div class="ti" style="background:url(&#39;upload/<?= $title['img']; ?>&#39;); background-size:cover;"></div>
@@ -55,22 +65,13 @@
 
                     </div>
                     <div class="dbor" style="margin:3px; width:95%; height:20%; line-height:100px;">
-                    	<span class="t">進站總人數 :<?= $Total->find(1)['total'] ?></span>
+                    	<span class="t">進站總人數 :<?= $Total->find(1)['total'] ?? 0 ?></span>
                     </div>
         		</div>
 				<!---->
-				<?php 
-				//$do=(!empty($_GET['do']))?$_GET['do']:"main";
-				//$do=(!isset($_GET['do']))?$_GET['do']:"main";
-
-				$do=$_GET['do']??"main";
-				$file="front/$do.php";
-				if(file_exists($file)){
-					include $file;
-				}else{
-					include "front/main.php";
-				}
-
+				<?php
+				// $do 已在檔案開頭經 resolve_route() 驗證，必定是 FRONT_ROUTES 的合法 key
+				include __DIR__ . '/' . FRONT_ROUTES[$do];
 				?>
                      <div class="di di ad" style="height:540px; width:23%; padding:0px; margin-left:22px; float:left; ">
                 	<!--右邊-->   
@@ -119,7 +120,7 @@
                             </div>
              	<div style="clear:both;"></div>
             	<div style="width:1024px; left:0px; position:relative; background:#FC3; margin-top:4px; height:123px; display:block;">
-                	<span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?></span>
+                	<span class="t" style="line-height:123px;"><?= $Bottom->find(1)['bottom'] ?? '' ?></span>
                 </div>
     </div>
 

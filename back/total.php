@@ -8,21 +8,24 @@
                     <a href="?do=admin" style="color:#000; text-decoration:none;">後台管理區</a>
                 </td>
                 <td>
-                    <button onclick="document.cookie=&#39;user=&#39;;location.replace(&#39;index.php&#39;)"
-                        style="width:99%; margin-right:2px; height:50px;">管理登出</button>
+                    <form method="post" action="./api/logout.php" style="margin:0;">
+                        <?= csrf_field() ?>
+                        <button type="submit" style="width:99%; margin-right:2px; height:50px;">管理登出</button>
+                    </form>
                 </td>
             </tr>
         </tbody>
     </table>
     <div style="width:99%; height:87%; margin:auto; overflow:auto; border:#666 1px solid;">
         <p class="t cent botli">進站總人數管理</p>
-        <form method="post" action="./api/edit_value.php?table=<?= $do ?>">
+        <form method="post" action="./api/edit_value.php?table=<?= e($do) ?>">
+            <?= csrf_field() ?>
             <table width="50%" style="margin:auto">
                 <tbody>
                     <tr class="yel">
                         <td width="50%">進站總人數</td>
                         <td width="50%">
-                            <input type="number" name='total' value="<?= $Total->find(1)['total'] ?>">
+                            <input type="number" name='total' value="<?= e($Total->find(1)['total'] ?? 0) ?>">
                             <input type="hidden" name="id" value='1'>
                         </td>
                     </tr>

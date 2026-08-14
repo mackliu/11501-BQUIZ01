@@ -51,20 +51,28 @@ INSERT INTO `ad` (`id`, `text`, `sh`) VALUES
 -- 資料表結構 `admin`
 --
 
+-- 2026-08-14 安全修復：
+--   acc 改為 VARCHAR(64) 以便建立 UNIQUE 索引（避免重複帳號）
+--   pw  改為 VARCHAR(255)，容納 password_hash() 的輸出
 CREATE TABLE `admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` text NOT NULL,
-  `pw` text NOT NULL
+  `acc` varchar(64) NOT NULL,
+  `pw` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `admin`
 --
-
-INSERT INTO `admin` (`id`, `acc`, `pw`) VALUES
-(1, 'admin', '1234'),
-(3, 'superadmin', '12345678'),
-(4, 'root', '5678');
+-- ⚠ 2026-08-14 安全修復：原本這裡有三筆管理員資料，密碼以明文儲存。
+--   這些帳密曾存在於 Git 歷史中，且 db21.sql 當時位於網站根目錄可被直接下載，
+--   必須視為已公開外洩 —— 三組密碼都不可再使用。此處已將資料整段移除。
+--
+--   匯入本檔後請執行以下指令建立第一個管理員（密碼會以 bcrypt 雜湊儲存）：
+--
+--       php db/create_admin.php <帳號> <密碼>
+--
+--   注意：程式會保護 id=1 的帳號不被後台刪改，建議把主帳號建成 id=1。
+--
 
 -- --------------------------------------------------------
 
@@ -242,7 +250,8 @@ ALTER TABLE `ad`
 -- 資料表索引 `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_admin_acc` (`acc`);
 
 --
 -- 資料表索引 `bottom`

@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------
+# 上傳目錄的執行防護
+# 於 2026-08-14 的安全修復中新增。對應 A02-4。
+#
+# 這個目錄的內容完全來自使用者上傳，必須當成「純資料」對待。
+# 就算 api/upload.php 的型別檢查被繞過，這裡也不會讓任何東西被當成程式執行。
+# ---------------------------------------------------------------
+
+# 關閉目錄列表，避免整包上傳內容被瀏覽
+Options -Indexes
+
+# 關閉本目錄的 PHP 直譯器
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+# 就算 PHP 是以 CGI/FastCGI 模式執行（上面的 php_flag 不生效），
+# 仍然直接拒絕所有可執行副檔名
+<FilesMatch "(?i)\.(php|php[0-9]?|phtml|phps|phar|inc|hphp|cgi|pl|py|rb|sh|exe|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+# 移除可能被繼承的處理器設定
+<IfModule mod_mime.c>
+    RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .phar
+    RemoveType .php .php3 .php4 .php5 .php7 .php8 .phtml .phar
+</IfModule>
+
+# 這個目錄只該提供圖片，一律當成附件下載而非由瀏覽器詮釋
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

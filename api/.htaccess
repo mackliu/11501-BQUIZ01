@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------
+# 於 2026-08-14 的安全修復中新增。
+#
+# api/ 底下同時放了兩種檔案：
+#   1. 表單端點（login/logout/add/edit/update/... ）—— 必須可由瀏覽器存取
+#   2. 共用函式庫（config/bootstrap/db/auth/csrf/upload/routes）—— 不該被直接開啟
+#
+# 特別是 config.php 含有資料庫密碼：正常情況下 PHP 會執行它而不會吐出原始碼，
+# 但只要 PHP 模組在部署時出問題，整份密碼就會以純文字送給瀏覽器。
+# 這裡直接封死，不依賴 PHP 是否正常運作。
+# ---------------------------------------------------------------
+Options -Indexes
+
+<FilesMatch "^(config|config\.sample|bootstrap|db|auth|csrf|upload|routes)\.php$">
+    Require all denied
+</FilesMatch>

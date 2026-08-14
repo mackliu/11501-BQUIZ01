@@ -11,11 +11,12 @@
 				    $db=$News;
                     $all=$db->count(['sh'=>1]);
                     $div=5;
-                    $pages=ceil($all/$div);
-                    $now=$_GET['p']??1;
+                    $pages=max(1, (int)ceil($all/$div));
+                    // 分頁參數強制轉型並夾在合法範圍內，避免 TypeError 與負數 OFFSET
+                    $now=max(1, min($pages, (int)($_GET['p'] ?? 1)));
                     $start=($now-1)*$div;
-                    
-                    $rows=$db->all(['sh'=>1]," limit $start,$div");
+
+                    $rows=$db->all(['sh'=>1], ['limit'=>$div, 'offset'=>$start]);
 				
 				?>
 				<ol start="<?= $start+1; ?>" >
